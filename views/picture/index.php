@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\helpers\Url;
 use yii\widgets\LinkPager;
 
 /* @var $this yii\web\View */
@@ -10,6 +11,11 @@ use yii\widgets\LinkPager;
 
 $this->title = 'Pictures';
 $this->params['breadcrumbs'][] = $this->title;
+$this->registerJsFile(
+    '@web/js/pictures.js',
+    ['depends' => [\yii\web\JqueryAsset::className()]]
+);
+
 ?>
 <div class="pictures-index">
 
@@ -25,9 +31,9 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="col-md-5">
                 <h1><?=$model->name ?></h1>
                 <img src="<?=$model->file->url ?>" class="img-responsive" alt="<?=$model->name ?>" />
-                <div >Mocne : 0 Słabe : 0</div>
-                <button class="btn btn-success">MOCNE</button>
-                <button class="btn btn-danger">SŁABE</button>
+                <div >Mocne : <span class="like"><?=$pictureRating->getPictureRate($model->id); ?></span></div>
+                <button link="<?=Url::toRoute('rating/rate') ?>" class="btn btn-success like-event" data-picture_id="<?=$model->id ?>">MOCNE</button>
+                <button link="<?=Url::toRoute('rating/rate') ?>" class="btn btn-danger like-event dislike-event" data-picture_id="<?=$model->id ?>">SŁABE</button>
 
             </div>
             <div class="col-md-5">

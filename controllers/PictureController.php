@@ -3,9 +3,11 @@
 namespace app\controllers;
 
 use app\models\PicturesForm;
+use app\services\PictureRating;
 use Yii;
 use app\models\Pictures;
 use app\models\PicturesSearch;
+use yii\base\Module;
 use yii\data\Pagination;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -17,6 +19,7 @@ use yii\web\UploadedFile;
  */
 class PictureController extends Controller
 {
+    private $pictureRating;
     /**
      * {@inheritdoc}
      */
@@ -30,6 +33,12 @@ class PictureController extends Controller
                 ],
             ],
         ];
+    }
+
+    public function __construct(string $id, Module $module,PictureRating $pictureRating, array $config = [])
+    {
+        $this->pictureRating = $pictureRating;
+        parent::__construct($id, $module, $config);
     }
 
     /**
@@ -48,6 +57,7 @@ class PictureController extends Controller
         return $this->render('index', [
             'models' => $models,
             'pages' => $pages,
+            'pictureRating' =>  $this->pictureRating
         ]);
     }
 
