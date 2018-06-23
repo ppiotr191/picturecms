@@ -3,6 +3,7 @@
 namespace tests\models;
 
 use app\models\LoginForm;
+use app\tests\fixtures\UserFixture;
 
 class LoginFormTest extends \Codeception\Test\Unit
 {
@@ -11,6 +12,16 @@ class LoginFormTest extends \Codeception\Test\Unit
     protected function _after()
     {
         \Yii::$app->user->logout();
+    }
+
+    public function _fixtures()
+    {
+        return [
+            'profiles' => [
+                'class' => UserFixture::class,
+                'dataFile' => codecept_data_dir() . 'users.php'
+            ],
+        ];
     }
 
     public function testLoginNoUser()
@@ -39,8 +50,8 @@ class LoginFormTest extends \Codeception\Test\Unit
     public function testLoginCorrect()
     {
         $this->model = new LoginForm([
-            'username' => 'demo',
-            'password' => 'demo',
+            'username' => 'admin@example.com',
+            'password' => 'admintest123',
         ]);
 
         expect_that($this->model->login());

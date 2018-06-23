@@ -43,6 +43,10 @@ $config = [
             ],
         ],
         'db' => $db,
+        'jwt' => [
+            'class' => 'sizeg\jwt\Jwt',
+            'key' => 'secret',
+        ],
         /*
         'urlManager' => [
             'enablePrettyUrl' => true,
@@ -51,6 +55,13 @@ $config = [
             ],
         ],
         */
+    ],
+    'container' => [
+        'definitions' => [
+        ],
+        'singletons' => [
+            'app\services\LinkActivate' => []
+        ]
     ],
     'params' => $params,
 ];

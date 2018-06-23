@@ -16,6 +16,14 @@ return [
     'components' => [
         'db' => $db,
         'mailer' => [
+            'transport' => [
+                '__class' => Swift_SmtpTransport::class,
+                'host' => 'localhost',
+                'username' => 'username',
+                'password' => 'password',
+                'port' => '587',
+                'encryption' => 'tls',
+            ],
             'useFileTransport' => true,
         ],
         'assetManager' => [
@@ -37,6 +45,17 @@ return [
             ],
             */
         ],
+        'jwt' => [
+            'class' => 'sizeg\jwt\Jwt',
+            'key' => 'secret',
+        ],
+    ],
+    'container' => [
+        'definitions' => [
+        ],
+        'singletons' => [
+
+        ]
     ],
     'params' => $params,
 ];
