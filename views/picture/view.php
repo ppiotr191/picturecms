@@ -40,13 +40,16 @@ $this->registerJsFile(
     </div>
     <div class="row">
         <div class="col-md-5 comment-form-origin">
-
         </div>
-    </div>
+    </div><hr/>
+    <div class="settings"
+        data-login="<?=(int)(!Yii::$app->user->getIsGuest()) ?>"
+    ></div>
     <div class="languages-data"
          data-add-btn="<?=Yii::t('picture', 'add_comment_btn') ?>"
          data-not-found="<?=Yii::t('picture', 'comment_not_found') ?>"
          data-answer="<?=Yii::t('picture', 'answer') ?>"
+         data-add-comment-user-must-be-logged="<?=Yii::t('picture', 'add_comment_user_must_be_logged') ?>"
     ></div>
     <div class="comments" data-pictureid="<?=$model->id ?>">
 

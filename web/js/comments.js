@@ -14,7 +14,7 @@ class Comments{
     }
 
     createForm(id, parentID){
-        var languageComment = $('.languages-data').data('add-btn');
+        var languageComment = $('.languages-data').data('add-btn');''
         var $form =  $(`<form class="form-inline" action="/comment/create?id=${id}" method="POST">
                 <input type="text" id="commentform-content" class="form-control" name="CommentForm[content]">
                 <input type="hidden" id="commentform-parent_id" class="form-control" name="CommentForm[parent_id]" value="${parentID}">
@@ -32,10 +32,15 @@ class Comments{
         if (!points){
             points = 0;
         }
+        var logged = +$('.settings').data('login');
+        var answerString = '';
+        if (logged){
+            answerString = `<div class="rating-link"><a href="#">${languageAnswer}</a></div>`
+        }
         let childrenString = '';
         if (!isChildren){
             childrenString = `
-                <div class="rating-link"><a href="#">${languageAnswer}</a></div>
+                ${answerString}
                 <div class="children" style="padding-left:40px"></div>
                 <div class="form-answer"></div>`;
         }
@@ -94,8 +99,18 @@ class Comments{
 
 $(function(){
     var commentID = parseInt($('.comments').data('pictureid'));
+    var languageMustBeLogged = $('.languages-data').data('add-comment-user-must-be-logged');
     var comment = new Comments();
     comment.getComments(commentID);
-    var $form = comment.createForm(commentID, 0);
-    $('.comment-form-origin').append($form);
+
+    var logged = +$('.settings').data('login');
+    if (logged){
+        var $form = comment.createForm(commentID, 0);
+        $('.comment-form-origin').append($form);
+    }
+    else{
+        $('.comment-form-origin').append(languageMustBeLogged);
+    }
+
+
 });
