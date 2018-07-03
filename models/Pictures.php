@@ -14,6 +14,9 @@ use Yii;
  */
 class Pictures extends \yii\db\ActiveRecord
 {
+    const STATUS_MAIN = 1;
+    const STATUS_AWAITING = 0;
+
     /**
      * {@inheritdoc}
      */
@@ -29,7 +32,7 @@ class Pictures extends \yii\db\ActiveRecord
     {
         return [
             [['author_id', 'file_id'], 'required'],
-            [['author_id', 'file_id'], 'integer'],
+            [['author_id', 'file_id', 'status'], 'integer'],
             [['name'], 'string', 'max' => 255],
         ];
     }
@@ -54,5 +57,17 @@ class Pictures extends \yii\db\ActiveRecord
     public function getFile()
     {
         return $this->hasOne(Files::className(), ['id' => 'file_id']);
+    }
+
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            if ($this->isNewRecord) {
+                $date = new \DateTime();
+                $this->create_date = $date->format("Y-m-d H:i:s");
+            }
+            return true;
+        }
+        return false;
     }
 }

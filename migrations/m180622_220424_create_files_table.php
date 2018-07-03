@@ -24,6 +24,6 @@ class m180622_220424_create_files_table extends Migration
      */
     public function safeDown()
     {
-        $this->dropTable('files_');
+        $this->dropTable('files');
     }
 }

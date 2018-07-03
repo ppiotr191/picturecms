@@ -24,10 +24,19 @@ class PicturesForm extends Model
         ];
     }
 
+    public function attributeLabels()
+    {
+        return [
+            'name' => Yii::t('form', 'picture_name'),
+            'imageFile' => Yii::t('form', 'picture_image_file'),
+        ];
+    }
+
     public function save()
     {
         if ($this->validate()) {
             $picture = new Pictures();
+            $picture->status = Pictures::STATUS_AWAITING;
             $picture->name = $this->name;
             $picture->author_id = Yii::$app->user->getId();
             $path = 'uploads/' . $this->imageFile->baseName . '.' . $this->imageFile->extension;

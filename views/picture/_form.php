@@ -10,7 +10,7 @@ use yii\widgets\ActiveForm;
 
 <div class="pictures-form">
 
-    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>
+    <?php $form = ActiveForm::begin([ 'options' => ['enctype' => 'multipart/form-data']]) ?>
 
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
@@ -18,7 +18,7 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'imageFile')->fileInput() ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton(Yii::t('form', 'picture_save_btn'), ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

@@ -44,4 +44,16 @@ class Rating extends \yii\db\ActiveRecord
             'rate' => 'Rate',
         ];
     }
+
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            if ($this->isNewRecord) {
+                $date = new \DateTime();
+                $this->create_date = $date->format("Y-m-d H:i:s");
+            }
+            return true;
+        }
+        return false;
+    }
 }

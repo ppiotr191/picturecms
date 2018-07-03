@@ -23,7 +23,7 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     public static function findByUsername($username){
-        return static::findOne(['email' => $username]);
+        return static::find()->where(['email' => $username])->orWhere(['login' => $username])->one();
     }
 
     /**
@@ -82,6 +82,8 @@ class User extends ActiveRecord implements IdentityInterface
         if (parent::beforeSave($insert)) {
             if ($this->isNewRecord) {
                 $this->auth_key = Yii::$app->security->generateRandomString();
+                $date = new \DateTime();
+                $this->register_date = $date->format("Y-m-d H:i:s");
             }
             return true;
         }

@@ -2,7 +2,6 @@
 
 namespace app\models;
 
-
 use Yii;
 use yii\base\Model;
 use yii\helpers\Url;
@@ -10,6 +9,7 @@ use yii\helpers\Url;
 class RegisterForm extends Model
 {
 
+    public $login;
     public $email;
     public $password;
     public $confirmPassword;
@@ -17,17 +17,35 @@ class RegisterForm extends Model
     public function rules()
     {
         return [
-            [['email', 'password', 'confirmPassword'], 'required'],
+            [['login', 'email', 'password', 'confirmPassword'], 'required'],
             ['confirmPassword', 'compare','compareAttribute' => 'password'],
-            [['email'], 'uniqueUser']
+            [['email'], 'uniqueEmail'],
+            [['login'], 'uniqueLogin']
         ];
     }
 
-    public function uniqueUser($attribute, $params){
-        $user = User::find()->where(['email' => $this->email])->one();
+    public function uniqueEmail($attribute, $params){
+
+        $user = User::find()->where([$attribute => $this->email])->one();
         if ($user !== null){
-            $this->addError($attribute, 'Email is already exists.');
+            $this->addError($attribute, Yii::t('form', 'email_exists'));
         }
+    }
+    public function uniqueLogin($attribute, $params){
+
+        $user = User::find()->where([$attribute => $this->login])->one();
+        if ($user !== null){
+            $this->addError($attribute, Yii::t('form', 'login_exists'));
+        }
+    }
+
+    public function attributeLabels()
+    {
+        return [
+            'username' => Yii::t('form', 'username'),
+            'confirmPassword' => Yii::t('form', 'confirm_password'),
+            'email' => Yii::t('form', 'email'),
+        ];
     }
 
     public function register()
@@ -35,6 +53,7 @@ class RegisterForm extends Model
         if ($this->validate()){
 
             $user = new TmpUser();
+            $user->login = $this->login;
             $user->email = $this->email;
             $user->password = $this->password;
             $user->save();
@@ -51,8 +70,8 @@ class RegisterForm extends Model
             Yii::$app->mailer->compose()
                 ->setTo($user->email)
                 ->setFrom([$this->email => $this->email])
-                ->setSubject('Activation Link')
-                ->setTextBody($token)
+                ->setSubject(Yii::t('mail', 'register_topic'))
+                ->setTextBody(Yii::t('mail', 'register_body', ['token' => $token]))
                 ->send();
 
             return $token;

@@ -26,7 +26,9 @@ class LinkActivate extends BaseObject
         try {
             $user = new User();
             $user->email = $email;
+            $user->login = $tmpUser->login;
             $user->password = $tmpUser->password;
+            $user->create_date = $tmpUser->create_date;
             $user->save();
             $tmpUser->delete();
             $transaction->commit();

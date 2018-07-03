@@ -38,31 +38,38 @@ AppAsset::register($this);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'About', 'url' => ['/site/about']],
-            ['label' => 'Contact', 'url' => ['/site/contact']],
-            Yii::$app->user->isGuest ? (['label' => 'Register', 'url' => ['/register/index']]) : '',
+            ['label' => Yii::t('main', 'main_page'), 'url' => ['/picture/index']],
+            ['label' => Yii::t('main', 'awaiting'), 'url' => ['/picture/awaiting']],
+            ['label' => Yii::t('main', 'random'), 'url' => ['/picture/random']],
+            ['label' => Yii::t('main', 'top'), 'url' => ['/picture/top']],
+            ['label' => Yii::t('main', 'search'),
+                'items' =>[
+                    '<li><form action="/picture/search" class="form-inline">
+                      <div class="form-group">
+                        <input type="text" class="form-control" name="phrase" id="phrase" placeholder="Fraza">
+                      </div>
+                      <button type="submit" class="btn btn-default">'.Yii::t('main', 'search_btn').'</button>
+                    </form></li>']
+            ],
+            Yii::$app->user->isGuest ? (['label' => Yii::t('main', 'register'), 'url' => ['/register/index']]) : '',
+            !Yii::$app->user->isGuest ? (['label' => Yii::t('main', 'add_picture'), 'url' => ['/picture/create']]) : '',
             Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/site/login']]
-            ) : (
-                '<li>'
-                . Html::beginForm(['/site/logout'], 'post')
-                . Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->email . ')',
-                    ['class' => 'btn btn-link logout']
-                )
-                . Html::endForm()
-                . '</li>'
-            )
+                ['label' => Yii::t('main', 'login'), 'url' => ['/site/login']]
+            ) : [
+                    'label' => Yii::t('main', 'profil'),
+                    'items' => [
+                        ['label' => Yii::t('main', 'profil'), 'url' => ['/profile/profile/own']],
+                        ['label' => Yii::t('main', 'settings'), 'url' => ['/profile/edit']],
+                        ['label' => Yii::t('main', 'my_pictures'), 'url' => ['/picture/user', 'id' => Yii::$app->user->id]],
+                        ['label' => Yii::t('main', 'logout'), 'url' => ['/site/logout']],
+                    ]
+             ]
         ],
     ]);
     NavBar::end();
     ?>
 
     <div class="container">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
         <?= Alert::widget() ?>
         <?= $content ?>
     </div>

@@ -1,14 +1,14 @@
 <?php
 
 use yii\helpers\Html;
+use yii\widgets\ActiveForm;
 
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Pictures */
 
-$this->title = 'Create Pictures';
-$this->params['breadcrumbs'][] = ['label' => 'Pictures', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = Yii::t('form', 'create_picture');
+
 ?>
 <div class="pictures-create">
 
@@ -17,5 +17,4 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= $this->render('_form', [
         'model' => $model,
     ]) ?>
-
 </div>

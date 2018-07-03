@@ -18,6 +18,8 @@ class TmpUser extends ActiveRecord
         if (parent::beforeSave($insert)) {
             if ($this->isNewRecord) {
                 $this->password = Yii::$app->getSecurity()->generatePasswordHash($this->password);
+                $date = new \DateTime();
+                $this->create_date = $date->format("Y-m-d H:i:s");
             }
             return true;
         }

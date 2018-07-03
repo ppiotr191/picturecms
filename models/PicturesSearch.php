@@ -18,7 +18,7 @@ class PicturesSearch extends Pictures
     public function rules()
     {
         return [
-            [['id', 'author_id', 'file_id'], 'integer'],
+            [['id', 'author_id', 'file_id', 'status'], 'integer'],
             [['name'], 'safe'],
         ];
     }
@@ -62,6 +62,7 @@ class PicturesSearch extends Pictures
             'id' => $this->id,
             'author_id' => $this->author_id,
             'file_id' => $this->file_id,
+            'status' => $this->status,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name]);
